@@ -1,7 +1,8 @@
 // Mock API service for testing
 import { useState, useEffect } from "react";
-import type { ClothingItem } from "./Clothing"; // Assuming ClothingItem is defined in Clothing.tsx
+ // Assuming ClothingItem is defined in Clothing.tsx
 import axios from "axios";
+import type { ClothingItem } from "./Clothing";
 
 // Hook to use the mock API
 export const useClothingApi = () => {

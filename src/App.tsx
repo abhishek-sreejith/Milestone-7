@@ -1,5 +1,5 @@
 import "./App.css";
-import FakeStore from "./components/Fakestore";
+import FakeStore from "./pages/listing/Fakestore";
 
 function App() {
 

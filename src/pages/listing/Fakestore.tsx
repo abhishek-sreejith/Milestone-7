@@ -1,9 +1,32 @@
 // src/components/FakeStore.tsx
 import { X, Search, ShoppingCart, User } from "lucide-react";
-import { Button } from "./Button";
+import { Button } from "../../components/Button";
 import ClothingCatalog from "./Clothing";
+import { FaTwitter, FaFacebook, FaInstagram, FaGithub } from "react-icons/fa"
+interface FooterLink {
+  title: string
+  links: string[]
+}
 
 const FakeStore = () => {
+  const footerLinks: Record<string, FooterLink> = {
+    COMPANY: {
+      title: "COMPANY",
+      links: ["About", "Features", "Works", "Career"],
+    },
+    HELP: {
+      title: "HELP",
+      links: ["Customer Support", "Delivery Details", "Terms & Conditions", "Privacy Policy"],
+    },
+    FAQ: {
+      title: "FAQ",
+      links: ["Account", "Manage Deliveries", "Orders", "Payments"],
+    },
+    RESOURCES: {
+      title: "RESOURCES",
+      links: ["Free eBooks", "Development Tutorial", "How to - Blog", "Youtube Playlist"],
+    },
+  }
   return (
     <main className="min-h-screen flex flex-col font-inter">
       {/* Promo Banner */}
@@ -84,7 +107,6 @@ const FakeStore = () => {
           {/* Dark overlay for better text readability */}
           {/* <div className="absolute inset-0 bg-black bg-opacity-40"></div> */}
         </div>
-        {/* Content */}
         <div className="relative z-10 w-full md:w-3/4 p-8 md:p-16 flex flex-col justify-center">
           <h1 className="font-alfa-slab font-[400] text-[64px] md:text-[64px] leading-none tracking-tighter mb-6 text-black">
             FIND CLOTHES THAT MATCH YOUR STYLE PERFECTLY
@@ -149,8 +171,71 @@ const FakeStore = () => {
           </div>
         </div>
       </section>
-      <section>
+      <section >
         <ClothingCatalog />
+      </section>
+
+      {/* Footer */}
+      <section>
+      <footer className="mt-auto bg-gray-100  mx-auto px-4 py-8 font-inter">
+        <div className="px-4 mx-20">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-26">
+            {/* Store Info */}
+            <div className="md:col-span-1">
+              <h2 className="text-3xl font-black mb-4 font-alfa-slab">FAKESTORE</h2>
+              <p className="text-gray-600 mb-4">
+                We have clothes that suits your style and which you're proud to wear.
+                <br />
+                From women to men.
+              </p>
+
+              {/* Social Media Icons */}
+              <div className="flex space-x-4 mt-4">
+                <a href="#" className="p-2 bg-white rounded-full">
+                  <FaTwitter className="text-gray-800" />
+                </a>
+                <a href="#" className="p-2 bg-white rounded-full">
+                  <FaFacebook className="text-gray-800" />
+                </a>
+                <a href="#" className="p-2 bg-white rounded-full">
+                  <FaInstagram className="text-gray-800" />
+                </a>
+                <a href="#" className="p-2 bg-white rounded-full">
+                  <FaGithub className="text-gray-800" />
+                </a>
+              </div>
+            </div>
+
+            {/* Footer Links */}
+            {Object.values(footerLinks).map((section) => (
+              <div key={section.title} className="md:col-span-1">
+                <h3 className="font-medium mb-4">{section.title}</h3>
+                <ul className="space-y-2">
+                  {section.links.map((link) => (
+                    <li key={link}>
+                      <a href="#" className="text-gray-600 hover:text-gray-900">
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Copyright and Payment Methods */}
+          <div className="mt-12 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-[#00000099] font-inter text-[14px] mb-4 md:mb-0">Fakestore© 2000-2023, All Rights Reserved</p>
+            <div className="flex space-x-4">
+              <img src="/visa.png" alt="Visa" className="h-15" />
+              <img src="/mastercard.png" alt="Mastercard" className="h-15" />
+              <img src="/paypal.png" alt="PayPal" className="h-15" />
+              <img src="/applepay.png" alt="Apple Pay" className="h-15" />
+              <img src="/googlepay.png" alt="Google Pay" className="h-15" />
+            </div>
+          </div>
+        </div>
+      </footer>
       </section>
     </main>
   );
