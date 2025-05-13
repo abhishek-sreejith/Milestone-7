@@ -1,12 +1,9 @@
 import "./App.css";
+import FakeStore from "./components/Fakestore";
 
 function App() {
 
-  return (
-    <>
-      <div className="flex text-2xl"> Sample text</div>
-    </>
-  );
+  return <FakeStore />;
 }
 
 export default App;
