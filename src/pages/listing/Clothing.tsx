@@ -23,8 +23,6 @@ interface StyleCategory {
   image: string;
 }
 
-
-
 // Component to display a section of clothing items
 const ClothingSection: React.FC<{ title: string; items: ClothingItem[] }> = ({
   title,
