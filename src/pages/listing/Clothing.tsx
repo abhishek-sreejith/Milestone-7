@@ -82,7 +82,7 @@ const ClothingCatalog: React.FC = () => {
       )}
       <div className="h-px w-full bg-dividerColor bg-opacity-30 "></div>
       <section>
-        <div className="mx-auto w-full p-[64px] bg-gray-100 rounded-3xl my-8">
+        <div className="mx-auto w-full p-[64px] bg-[#F0F0F0] rounded-3xl my-8">
           <h1 className="text-[48px] font-[400] text-center mb-8 font-alfa-slab">
             BROWSE BY STYLE
           </h1>
