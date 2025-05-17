@@ -1,9 +1,14 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Check, Minus, Plus } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { useProductDetailApi } from "./fetchProductDetail";
+import { addToCart } from "../../store/slice/cartSlice";
+import Button from "../../components/Button";
 
 const ProductDetail = () => {
+  const dispatch = useDispatch();
+
   const { id } = useParams();
   const { data, loading, error } = useProductDetailApi(id!);
 
@@ -21,7 +26,22 @@ const ProductDetail = () => {
       setQuantity((prev) => prev - 1);
     }
   };
-
+  const handleAddToCart = () => {
+    if (data) {
+      console.log("Adding to redux");
+      dispatch(
+        addToCart({
+          id: data.id,
+          title: data.name,
+          price: data.price,
+          color: selectedColor, // if you have a color picker
+          quantity: quantity,
+          image: data.images[0],
+          size: selectedSize, // if you have a size picker
+        })
+      );
+    }
+  };
   // Show loading state
   if (loading) {
     return (
@@ -222,10 +242,12 @@ const ProductDetail = () => {
                   <Plus size={18} />
                 </button>
               </div>
-
-              <button className="flex-1 bg-black text-white hover:bg-black/90 rounded-[62px] py-3 px-4">
+              <Button
+                className="bg-black text-white rounded-full px-10 py-4 text-sm hover:bg-subtitleColor w-full"
+                onClick={handleAddToCart}
+              >
                 Add to Cart
-              </button>
+              </Button>
             </div>
           </div>
         </div>

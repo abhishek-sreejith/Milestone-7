@@ -1,9 +1,18 @@
 import "./App.css";
 import { X, Search, ShoppingCart, User } from "lucide-react";
 import { FaTwitter, FaFacebook, FaInstagram, FaGithub } from "react-icons/fa";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
 import HomePage from "./pages/listing/HomePage";
 import ProductDetail from "./pages/products/ProductDetail";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+import CartPage from "./pages/cart/CartPage";
 interface FooterLink {
   title: string;
   links: string[];
@@ -38,6 +47,8 @@ const footerLinks: Record<string, FooterLink> = {
 };
 // Header component that will be reused across all pages
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="fixed top-0 left-0 right-0 z-50">
       {/* Promo Banner */}
@@ -55,7 +66,10 @@ const Header = () => {
       <nav className="py-6 px-15 flex items-center justify-between bg-white">
         {/* Left side: Logo and Links */}
         <div className="flex items-center gap-12 flex-shrink-0">
-          <Link to="/" className="font-alfa-slab text-[32px] font-black tracking-tighter">
+          <Link
+            to="/"
+            className="font-alfa-slab text-[32px] font-black tracking-tighter"
+          >
             FAKESTORE
           </Link>
           <div className="hidden md:flex items-center gap-8 font-inter">
@@ -90,7 +104,12 @@ const Header = () => {
           </div>
 
           {/* Icons */}
-          <button className="p-2">
+          <button
+            className="p-2"
+            onClick={() => {
+              navigate("/cart");
+            }}
+          >
             <ShoppingCart className="h-6 w-6" />
           </button>
           <button className="p-2">
@@ -109,12 +128,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-26">
           {/* Store Info */}
           <div className="md:col-span-1">
-            <h2 className="text-3xl font-black mb-4 font-alfa-slab">
+            <h2 className="text-3xl mb-4 font-alfa-slab">
               FAKESTORE
             </h2>
             <p className="text-gray-600 mb-4">
-              We have clothes that suits your style and which you're proud
-              to wear.
+              We have clothes that suits your style and which you're proud to
+              wear.
               <br />
               From women to men.
             </p>
@@ -143,10 +162,7 @@ const Footer = () => {
               <ul className="space-y-2">
                 {section.links.map((link) => (
                   <li key={link}>
-                    <a
-                      href="#"
-                      className="text-gray-600 hover:text-gray-900"
-                    >
+                    <a href="#" className="text-gray-600 hover:text-gray-900">
                       {link}
                     </a>
                   </li>
@@ -186,26 +202,37 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 };
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route 
-          path="/" 
-          element={
-            <Layout>
-              <HomePage/>
-            </Layout>
-          } 
-        />
-        <Route 
-          path="/product/:id" 
-          element={
-            <Layout>
-              <ProductDetail />
-            </Layout>
-          } 
-        />
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <HomePage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/product/:id"
+            element={
+              <Layout>
+                <ProductDetail />
+              </Layout>
+            }
+          />
+
+          <Route
+            path="/cart"
+            element={
+              <Layout>
+                <CartPage />
+              </Layout>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   );
 }
 

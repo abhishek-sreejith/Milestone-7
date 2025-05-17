@@ -1,5 +1,5 @@
 // src/components/FakeStore.tsx
-import { Button } from "../../components/Button";
+import Button from "../../components/Button";
 import ClothingCatalog from "./Clothing";
 
 const HomePage = () => {
@@ -18,7 +18,7 @@ const HomePage = () => {
           {/* <div className="absolute inset-0 bg-black bg-opacity-40"></div> */}
         </div>
         <div className="relative z-10 w-full md:w-3/4 p-8 md:p-16 flex flex-col justify-center">
-          <h1 className="font-alfa-slab font-[400] text-[64px] md:text-[64px] leading-none tracking-tighter mb-6 text-black">
+          <h1 className="font-alfa-slab font-[400] text-[64px] md:text-[64px] leading-none mb-6 text-black">
             FIND CLOTHES THAT MATCH YOUR STYLE PERFECTLY
           </h1>
           <p className="font-inter text-subtitleColor mb-8 max-w-lg text-[16px]">

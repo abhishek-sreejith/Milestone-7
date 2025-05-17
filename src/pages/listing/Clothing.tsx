@@ -30,7 +30,7 @@ const ClothingSection: React.FC<{ title: string; items: ClothingItem[] }> = ({
 }) => {
   return (
     <div className="my-8">
-      <h2 className="text-[48px] font-alfa-slab font-black text-center mt-[61px] mb-[51px]">
+      <h2 className="text-[48px] font-alfa-slab text-center mt-[61px] mb-[51px]">
         {title}
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
