@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useProductDetailApi } from "./fetchProductDetail";
 import { addToCart } from "../../store/slice/cartSlice";
 import Button from "../../components/Button";
+import Toast from "../../components/Toast";
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
@@ -13,10 +14,13 @@ const ProductDetail = () => {
   const { data, loading, error } = useProductDetailApi(id!);
 
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState("Large");
+  const [selectedSize, setSelectedSize] = useState("Small");
   const [selectedColor, setSelectedColor] = useState("olive");
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
   const incrementQuantity = () => {
     setQuantity((prev) => prev + 1);
   };
@@ -40,6 +44,7 @@ const ProductDetail = () => {
           size: selectedSize, // if you have a size picker
         })
       );
+      setToast({ message: "Product added to cart", type: "success" });
     }
   };
   // Show loading state
@@ -251,6 +256,13 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
+        )}
       </main>
     </div>
   );

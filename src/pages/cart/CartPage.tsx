@@ -9,11 +9,15 @@ import {
 import type { RootState } from "../../store/store";
 import Button from "../../components/Button";
 import { useState } from "react";
+import Toast from "../../components/Toast";
 
 const CartPage: React.FC = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
-
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
   // Calculate cart totals
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -25,6 +29,7 @@ const CartPage: React.FC = () => {
 
   const handleRemoveItem = (id: string) => {
     dispatch(removeFromCart(id));
+    setToast({ message: "Product removed from cart", type: "success" });
   };
 
   const handleDecreaseQuantity = (id: string) => {
@@ -70,7 +75,9 @@ const CartPage: React.FC = () => {
       <h1 className="text-[32px] mb-8 font-alfa-slab">Your cart</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className={cartItems.length === 0 ? "lg:col-span-3":"lg:col-span-2"}>
+        <div
+          className={cartItems.length === 0 ? "lg:col-span-3" : "lg:col-span-2"}
+        >
           <div className="border border-dividerColor rounded-[20px] overflow-hidden">
             {cartItems.length === 0 ? (
               <div className="p-6 text-center w-full">
@@ -159,54 +166,65 @@ const CartPage: React.FC = () => {
           </div>
         </div>
 
-        {cartItems.length > 0 && <div>
-          <div className="border border-dividerColor rounded-[20px] p-6">
-            <h2 className="text-[24px] font-[700] mb-6">Order Summary</h2>
+        {cartItems.length > 0 && (
+          <div>
+            <div className="border border-dividerColor rounded-[20px] p-6">
+              <h2 className="text-[24px] font-[700] mb-6">Order Summary</h2>
 
-            <div className="space-y-4">
-              <div className="flex justify-between text-[20px]">
-                <span className="text-subtitleColor font-[400]">Subtotal</span>
-                <span className="font-[700]">${subtotal.toFixed(2)}</span>
-              </div>
+              <div className="space-y-4">
+                <div className="flex justify-between text-[20px]">
+                  <span className="text-subtitleColor font-[400]">
+                    Subtotal
+                  </span>
+                  <span className="font-[700]">${subtotal.toFixed(2)}</span>
+                </div>
 
-              <div className="flex justify-between text-[20px]">
-                <span className="text-subtitleColor font-[400]">
-                  Discount (-20%)
-                </span>
-                <span className="text-red-500 font-[700]">
-                  -${discount.toFixed(2)}
-                </span>
-              </div>
-
-              <div className="flex justify-between text-[20px]">
-                <span className="text-subtitleColor font-[400]">
-                  Delivery Fee
-                </span>
-                <span className="font-[700]">${deliveryFee.toFixed(2)}</span>
-              </div>
-              {/* Divider */}
-              <div className="h-px w-full bg-dividerColor bg-opacity-30 "></div>
-
-              <div className="">
-                <div className="flex justify-between">
-                  <span className="text-[20px] font-[400]">Total</span>
-                  <span className="text-[24px] font-[700]">
-                    ${total.toFixed(2)}
+                <div className="flex justify-between text-[20px]">
+                  <span className="text-subtitleColor font-[400]">
+                    Discount (-20%)
+                  </span>
+                  <span className="text-red-500 font-[700]">
+                    -${discount.toFixed(2)}
                   </span>
                 </div>
-              </div>
 
-              <div className="flex mt-6">
-                <PromoCodeInput onApply={() => {}} />
+                <div className="flex justify-between text-[20px]">
+                  <span className="text-subtitleColor font-[400]">
+                    Delivery Fee
+                  </span>
+                  <span className="font-[700]">${deliveryFee.toFixed(2)}</span>
+                </div>
+                {/* Divider */}
+                <div className="h-px w-full bg-dividerColor bg-opacity-30 "></div>
+
+                <div className="">
+                  <div className="flex justify-between">
+                    <span className="text-[20px] font-[400]">Total</span>
+                    <span className="text-[24px] font-[700]">
+                      ${total.toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex mt-6">
+                  <PromoCodeInput onApply={() => {}} />
+                </div>
+                <Button className="bg-black text-white rounded-full px-10 py-4 text-sm hover:bg-subtitleColor w-full">
+                  Go to Checkout
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
               </div>
-              <Button className="bg-black text-white rounded-full px-10 py-4 text-sm hover:bg-subtitleColor w-full">
-                Go to Checkout
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
             </div>
           </div>
-        </div>}
+        )}
       </div>
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
