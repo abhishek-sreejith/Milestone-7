@@ -70,10 +70,10 @@ const CartPage: React.FC = () => {
       <h1 className="text-[32px] mb-8 font-alfa-slab">Your cart</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
+        <div className={cartItems.length === 0 ? "lg:col-span-3":"lg:col-span-2"}>
           <div className="border border-dividerColor rounded-[20px] overflow-hidden">
             {cartItems.length === 0 ? (
-              <div className="p-6 text-center">
+              <div className="p-6 text-center w-full">
                 <p className="text-gray-500">Your cart is empty</p>
               </div>
             ) : (
@@ -159,7 +159,7 @@ const CartPage: React.FC = () => {
           </div>
         </div>
 
-        <div>
+        {cartItems.length > 0 && <div>
           <div className="border border-dividerColor rounded-[20px] p-6">
             <h2 className="text-[24px] font-[700] mb-6">Order Summary</h2>
 
@@ -170,12 +170,18 @@ const CartPage: React.FC = () => {
               </div>
 
               <div className="flex justify-between text-[20px]">
-                <span className="text-subtitleColor font-[400]">Discount (-20%)</span>
-                <span className="text-red-500 font-[700]">-${discount.toFixed(2)}</span>
+                <span className="text-subtitleColor font-[400]">
+                  Discount (-20%)
+                </span>
+                <span className="text-red-500 font-[700]">
+                  -${discount.toFixed(2)}
+                </span>
               </div>
 
               <div className="flex justify-between text-[20px]">
-                <span className="text-subtitleColor font-[400]">Delivery Fee</span>
+                <span className="text-subtitleColor font-[400]">
+                  Delivery Fee
+                </span>
                 <span className="font-[700]">${deliveryFee.toFixed(2)}</span>
               </div>
               {/* Divider */}
@@ -184,7 +190,9 @@ const CartPage: React.FC = () => {
               <div className="">
                 <div className="flex justify-between">
                   <span className="text-[20px] font-[400]">Total</span>
-                  <span className="text-[24px] font-[700]">${total.toFixed(2)}</span>
+                  <span className="text-[24px] font-[700]">
+                    ${total.toFixed(2)}
+                  </span>
                 </div>
               </div>
 
@@ -197,7 +205,7 @@ const CartPage: React.FC = () => {
               </Button>
             </div>
           </div>
-        </div>
+        </div>}
       </div>
     </div>
   );

@@ -128,9 +128,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-26">
           {/* Store Info */}
           <div className="md:col-span-1">
-            <h2 className="text-3xl mb-4 font-alfa-slab">
-              FAKESTORE
-            </h2>
+            <h2 className="text-3xl mb-4 font-alfa-slab">FAKESTORE</h2>
             <p className="text-gray-600 mb-4">
               We have clothes that suits your style and which you're proud to
               wear.
@@ -173,16 +171,20 @@ const Footer = () => {
         </div>
 
         {/* Copyright and Payment Methods */}
-        <div className="mt-12 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-[#00000099] font-inter text-[14px] mb-4 md:mb-0">
+        <div className="mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-[#00000099] font-inter text-[14px] md:text-[14px] mb-6 md:mb-0 text-center md:text-left">
             Fakestore© 2000-2023, All Rights Reserved
           </p>
-          <div className="flex space-x-4">
-            <img src="/visa.png" alt="Visa" className="h-15" />
-            <img src="/mastercard.png" alt="Mastercard" className="h-15" />
-            <img src="/paypal.png" alt="PayPal" className="h-15" />
-            <img src="/applepay.png" alt="Apple Pay" className="h-15" />
-            <img src="/googlepay.png" alt="Google Pay" className="h-15" />
+          <div className="flex flex-wrap justify-center gap-4">
+            <img src="/visa.png" alt="Visa" className="h-6 md:h-8" />
+            <img
+              src="/mastercard.png"
+              alt="Mastercard"
+              className="h-6 md:h-8"
+            />
+            <img src="/paypal.png" alt="PayPal" className="h-6 md:h-8" />
+            <img src="/applepay.png" alt="Apple Pay" className="h-6 md:h-8" />
+            <img src="/googlepay.png" alt="Google Pay" className="h-6 md:h-8" />
           </div>
         </div>
       </div>
