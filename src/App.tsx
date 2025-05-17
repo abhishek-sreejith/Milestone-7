@@ -13,6 +13,7 @@ import ProductDetail from "./pages/products/ProductDetail";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import CartPage from "./pages/cart/CartPage";
+import AuthForm from "./pages/Authentication/AuthForm";
 interface FooterLink {
   title: string;
   links: string[];
@@ -112,7 +113,12 @@ const Header = () => {
           >
             <ShoppingCart className="h-6 w-6" />
           </button>
-          <button className="p-2">
+          <button
+            className="p-2"
+            onClick={() => {
+              navigate("/auth");
+            }}
+          >
             <User className="h-6 w-6" />
           </button>
         </div>
@@ -207,6 +213,7 @@ function App() {
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
+          <Route path="/auth" element={<AuthForm />} />
           <Route
             path="/"
             element={
