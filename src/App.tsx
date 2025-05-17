@@ -3,6 +3,7 @@ import { X, Search, ShoppingCart, User } from "lucide-react";
 import { FaTwitter, FaFacebook, FaInstagram, FaGithub } from "react-icons/fa";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import HomePage from "./pages/listing/HomePage";
+import ProductDetail from "./pages/products/ProductDetail";
 interface FooterLink {
   title: string;
   links: string[];
@@ -191,18 +192,18 @@ function App() {
           path="/" 
           element={
             <Layout>
-              <HomePage />
+              <HomePage/>
             </Layout>
           } 
         />
-        {/* <Route 
+        <Route 
           path="/product/:id" 
           element={
             <Layout>
               <ProductDetail />
             </Layout>
           } 
-        /> */}
+        />
       </Routes>
     </BrowserRouter>
   );
