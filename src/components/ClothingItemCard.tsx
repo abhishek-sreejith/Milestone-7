@@ -7,7 +7,7 @@ export const ClothingItemCard: React.FC<{ item: ClothingItem }> = ({
 }) => {
   return (
     <Link to={`/product/${item.id}`} className="block w-full">
-      <div className="bg-[#F0EEED] rounded-[20px] aspect-square flex items-center justify-center h-[300px] w-[300px] overflow-hidden">
+      <div className="bg-[#F0EEED] rounded-[20px] flex items-center aspect-square justify-center w-full overflow-hidden">
         <img
           src={item.imageUrl}
           alt={item.name}

@@ -142,7 +142,7 @@ export default function AuthForm() {
           try {
             const currentUser = await getCurrentUser();
             console.log('User is already signed in:', currentUser);
-            navigate('/');
+            navigate('/profile?login=success');
             return;
           } catch (err) {
             // User is not signed in, continue with normal flow
@@ -159,7 +159,7 @@ export default function AuthForm() {
             console.log('Sign in after signup result:', signInResult);
             
             if (signInResult.isSignedIn) {
-              navigate('/');
+              navigate('/profile?login=success');
             } else {
               setAuthError('Account created but sign-in failed. Please try signing in manually.');
             }
@@ -169,7 +169,7 @@ export default function AuthForm() {
             if (signInErr instanceof Error && 
                 signInErr.name === 'UserAlreadyAuthenticatedException') {
               console.log('User is already authenticated, redirecting...');
-              navigate('/');
+              navigate('/profile?login=success');
             } else {
               setAuthError('Account created but sign-in failed. Please try signing in manually.');
             }
@@ -185,7 +185,7 @@ export default function AuthForm() {
           console.log('Sign in result:', signInResult);
           
           if (signInResult.isSignedIn) {
-            navigate('/');
+            navigate('/profile?login=success');
           } else if (signInResult.nextStep.signInStep === 'CONFIRM_SIGN_UP') {
             setAuthError('Your account needs to be verified. Please contact support.');
           } else {
