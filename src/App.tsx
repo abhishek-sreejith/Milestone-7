@@ -8,16 +8,21 @@ import {
   Link,
   useNavigate,
 } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getCurrentUser } from "aws-amplify/auth";
 import HomePage from "./pages/listing/HomePage";
 import ProductDetail from "./pages/products/ProductDetail";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import CartPage from "./pages/cart/CartPage";
-import AuthForm from "./pages/Authentication/AuthForm";
+import AuthForm from "./pages/Profile/AuthForm";
+import ProfileScreen from "./pages/Profile/ProfileScreen"; // Import the new ProfileScreen component
+
 interface FooterLink {
   title: string;
   links: string[];
 }
+
 const footerLinks: Record<string, FooterLink> = {
   COMPANY: {
     title: "COMPANY",
@@ -46,9 +51,36 @@ const footerLinks: Record<string, FooterLink> = {
     ],
   },
 };
+
 // Header component that will be reused across all pages
 const Header = () => {
   const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Check authentication status when component mounts
+  useEffect(() => {
+    checkAuthState();
+  }, []);
+
+  // Function to check if user is authenticated
+  const checkAuthState = async () => {
+    try {
+      const user = await getCurrentUser();
+      setIsAuthenticated(!!user);
+    } catch (error) {
+      console.log("Error: ", error)
+      setIsAuthenticated(false);
+    }
+  };
+
+  // Handle profile icon click based on authentication status
+  const handleProfileClick = () => {
+    if (isAuthenticated) {
+      navigate("/profile");
+    } else {
+      navigate("/auth");
+    }
+  };
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50">
@@ -115,9 +147,7 @@ const Header = () => {
           </button>
           <button
             className="p-2"
-            onClick={() => {
-              navigate("/auth");
-            }}
+            onClick={handleProfileClick}
           >
             <User className="h-6 w-6" />
           </button>
@@ -126,6 +156,7 @@ const Header = () => {
     </div>
   );
 };
+
 // Footer component that will be reused across all pages
 const Footer = () => {
   return (
@@ -197,6 +228,7 @@ const Footer = () => {
     </footer>
   );
 };
+
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="min-h-screen flex flex-col font-inter">
@@ -208,12 +240,49 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     </main>
   );
 };
+
+// Create an Auth-protected route wrapper
+const ProtectedRoute = ({ element }: { element: React.ReactNode }) => {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        await getCurrentUser();
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.log("Error: ", error)
+        navigate('/auth');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuthStatus();
+  }, [navigate]);
+
+  if (isLoading) {
+    return <div className="flex justify-center items-center min-h-[50vh]">Loading...</div>;
+  }
+
+  return isAuthenticated ? <>{element}</> : null;
+};
+
 function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/auth" element={<AuthForm />} />
+          <Route
+            path="/auth"
+            element={
+              <Layout>
+                <AuthForm />
+              </Layout>
+            }
+          />
           <Route
             path="/"
             element={
@@ -230,12 +299,19 @@ function App() {
               </Layout>
             }
           />
-
           <Route
             path="/cart"
             element={
               <Layout>
                 <CartPage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <Layout>
+                <ProtectedRoute element={<ProfileScreen />} />
               </Layout>
             }
           />

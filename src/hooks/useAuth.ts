@@ -1,6 +1,6 @@
 // hooks/useAuth.ts
 import { useState } from "react";
-import Auth from "@aws-amplify/auth";
+import { signIn as amplifySignIn } from "aws-amplify/auth";
 
 export function useAuth() {
   const [loading, setLoading] = useState(false);
@@ -11,9 +11,12 @@ export function useAuth() {
     setError(null);
 
     try {
-      const user = await Auth.signIn({ username: email, password });
+      const { isSignedIn, nextStep } = await amplifySignIn({
+        username: email,
+        password
+      });
       setLoading(false);
-      return { success: true, user };
+      return { success: isSignedIn, nextStep };
     } catch (err: unknown) {
       setLoading(false);
       if (err instanceof Error) {
